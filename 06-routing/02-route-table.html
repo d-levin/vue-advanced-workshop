@@ -1,0 +1,45 @@
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app"></div>
+
+<script>
+const Foo = { template: `<div>foo</div>` }
+const Bar = { template: `<div>bar</div>` }
+const NotFound = { template: `<div>not found!</div>` }
+
+const routeTable = {
+  '/foo': Foo,
+  '/bar': Bar
+}
+
+// '#/foo' -> Foo
+// '#/bar' -> Bar
+// '#/404' -> NotFound
+
+window.addEventListener('hashchange', () => {
+  // console.log(window.location.hash)
+  app.url = window.location.hash.slice(1)
+})
+
+const app = new Vue({
+  el: '#app',
+  data: {
+    url: window.location.hash.slice(1)
+  },
+  render (h) {
+    const componentToRender = routeTable['/' + this.url] || NotFound
+    return h('div', [
+      h(componentToRender),
+      h('a', { attrs: { href: '#foo' }}, 'foo'),
+      ' | ',
+      h('a', { attrs: { href: '#bar' }}, 'bar')
+    ])
+  }
+})
+
+// goal:
+// - display foo when url is at #foo
+// - display bar when url is at #bar
+// - bonus: implement links that navigate between #foo and #bar
+// - bonus2: render foo and bar from child components (<foo> and <bar>)
+</script>

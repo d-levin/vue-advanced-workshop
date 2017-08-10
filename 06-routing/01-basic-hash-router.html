@@ -1,0 +1,31 @@
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+  <component :is="url"></component>
+  <a href="#foo">foo</a>
+  <a href="#bar">bar</a>
+</div>
+
+<script>
+window.addEventListener('hashchange', () => {
+  // console.log(window.location.hash)
+  app.url = window.location.hash.slice(1)
+})
+
+const app = new Vue({
+  el: '#app',
+  data: {
+    url: window.location.hash.slice(1)
+  },
+  components: {
+    foo: { template: `<div>foo</div>` },
+    bar: { template: `<div>bar</div>` }
+  }
+})
+
+// goal:
+// - display foo when url is at #foo
+// - display bar when url is at #bar
+// - bonus: implement links that navigate between #foo and #bar
+// - bonus2: render foo and bar from child components (<foo> and <bar>)
+</script>

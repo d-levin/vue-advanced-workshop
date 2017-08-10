@@ -1,0 +1,73 @@
+<script src="https://unpkg.com/vue"></script>
+
+<script>
+function createStore ({ state, mutations }) {
+  return new Vue({
+    data: {
+      state
+    },
+    methods: {
+      commit (mutationName) {
+        mutations[mutationName](state)
+      }
+    }
+  })
+}
+
+const store = createStore({
+  state: { count: 0 },
+  mutations: {
+    inc (state) {
+      state.count++
+    }
+  }
+})
+
+// write a plugin that makes the following usage possible:
+const storePlugin = {
+  install (Vue) {
+    Vue.mixin({
+      beforeCreate () {
+        if (this.$options.store) {
+          // store is being injected via option
+          this.$store = this.$options.store
+        } else {
+          // no option, need to find the store on one of the ancester components
+          if (this.$parent && this.$parent.$store) {
+            this.$store = this.$parent.$store
+          }
+        }
+      }
+    })
+
+    // Object.defineProperty(Vue.prototype, '$store', {
+    //   get () {
+    //     return this.$options.store || (this.$parent && this.$parent.$store)
+    //   }
+    // })
+  }
+}
+
+Vue.use(storePlugin)
+
+// Counter.vue
+const Counter = {
+  render (h) {
+    return h('div', this.$store.state.count)
+  }
+}
+
+// main.js
+import store from './store.js'
+
+const root = new Vue({
+  el: '#app',
+  store, // <-- injection point
+  components: { Counter },
+  methods: {
+    inc () {
+      this.$store.commit('inc')
+    }
+  }
+})
+</script>

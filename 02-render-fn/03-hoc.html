@@ -1,0 +1,27 @@
+<script>
+const Avatar = {
+  props: ['src'],
+  template: `<img :src="src">`
+}
+
+const WrappedAvatar = {
+  props: ['username'],
+  data: {
+    url: null
+  },
+  created () {
+    fetchURL(this.username, url => {
+      this.url = url
+    })
+  },
+  render (h) {
+    return this.url
+      ? h(Avatar, { props: { src: this.url }})
+      : null
+  }
+}
+
+function DecorateComponentWithData (Component) {
+  return WrappedComponent
+}
+</script>

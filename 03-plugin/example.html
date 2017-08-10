@@ -1,0 +1,23 @@
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+</div>
+
+<script>
+const myMixin = {
+  beforeCreate () {
+    console.log(this.$options.validations)
+  }
+}
+
+const myPlugin = function (Vue) {
+  Vue.mixin(myMixin)
+}
+
+Vue.use(myPlugin)
+
+new Vue({
+  el: '#app',
+  validations: 'foo'
+})
+</script>

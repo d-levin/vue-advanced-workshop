@@ -1,0 +1,72 @@
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+  <counter></counter>
+  <button @click="increment">increment</button>
+  <button @click="forward">forward</button>
+  <button @click="back">back</button>
+</div>
+
+<script>
+let snapshotIndex = 0
+let snapshots = []
+
+function createStore ({ state, mutations }) {
+  return new Vue({
+    data: {
+      state
+    },
+    methods: {
+      commit (mutationName) {
+        mutations[mutationName](this.state)
+
+        // take a snapshot
+        const snapshot = JSON.stringify(this.state)
+
+        snapshots = snapshots.slice(0, snapshotIndex + 1)
+        snapshots.push(snapshot)
+        snapshotIndex = snapshots.length - 1
+      }
+    }
+  })
+}
+
+const store = createStore({
+  state: { count: 0 },
+  mutations: {
+    inc (state) {
+      state.count++
+    }
+  }
+})
+
+const Counter = {
+  render (h) {
+    return h('div', store.state.count)
+  }
+}
+
+const root = new Vue({
+  el: '#app',
+  components: { Counter },
+  methods: {
+    increment () {
+      store.commit('inc')
+    },
+    forward () {
+      if (snapshotIndex < snapshots.length - 1) {
+        snapshotIndex++
+        const targetSnapshot = snapshots[snapshotIndex]
+        store.state = JSON.parse(targetSnapshot)
+      }
+    },
+    back () {
+      if (snapshotIndex > 0) {
+        snapshotIndex--
+        const targetSnapshot = snapshots[snapshotIndex]
+        store.state = JSON.parse(targetSnapshot)
+      }
+    }
+  }
+})
+</script>

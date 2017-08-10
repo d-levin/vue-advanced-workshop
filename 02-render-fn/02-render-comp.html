@@ -1,0 +1,46 @@
+<script src="https://unpkg.com/vue"></script>
+<!--
+GOAL:
+
+1. Implement a Foo component which simply renders <div>foo</div>, and a Bar
+   component which simply renders <div>bar</div> (using render functions,
+   obviously).
+
+2. Implement an "example" component which renders the Foo component or the Bar
+   component based on its "ok" prop. For example if "ok" is true, the final
+   rendered dom should be <div>foo</div>.
+
+3. Implement a button that toggles "example" between "foo" and "bar" by
+   controlling its "ok" prop.
+-->
+
+<div id="app">
+  <example :ok="ok"></example>
+  <button @click="ok = !ok">toggle</button>
+</div>
+
+<script>
+const Foo = {
+  render (h) {
+    return h('div', 'foo')
+  }
+}
+
+const Bar = {
+  render (h) {
+    return h('div', 'bar')
+  }
+}
+
+Vue.component('example', {
+  props: ['ok'],
+  render (h) {
+    return h(this.ok ? Foo : Bar)
+  }
+})
+
+new Vue({
+  el: '#app',
+  data: { ok: true }
+})
+</script>

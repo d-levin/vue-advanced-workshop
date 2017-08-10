@@ -1,0 +1,66 @@
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+  <form @submit="validate">
+    <input v-model="text">
+    <input v-model="text2">
+    <input v-model="text3">
+    <ul v-if="!$v.valid" style="color:red">
+      <li v-for="error in $v.errors">
+        {{ error }}
+      </li>
+    </ul>
+  </form>
+</div>
+
+<script>
+const validationPlugin = {
+  install (Vue) {
+    Vue.mixin({
+      computed: {
+        $v () {
+          let valid = true
+          const errors = []
+
+          const validationSchema = this.$options.validations
+
+          Object.keys(validationSchema).forEach(key => {
+            const value = this[key]
+            const rules = validationState[key]
+
+            // assert if value satisfies the rules
+            // and generate according error message
+          })
+
+          return {
+            valid,
+            errors
+          }
+        }
+      }
+    })
+  }
+}
+
+new Vue({
+  el: '#app',
+  data: {
+    text: 'foo',
+    text2: 'bar',
+    text3: 'baz'
+  },
+  validations: {
+    text: {
+      minlength: minlength(5)
+    }
+  },
+  methods: {
+    validate (e) {
+      if (!this.$v.valid) {
+        e.preventDefault()
+        alert('not valid!')
+      }
+    }
+  }
+})
+</script>

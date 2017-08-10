@@ -1,0 +1,19 @@
+<script src="https://unpkg.com/vue"></script>
+
+<script>
+const myPlugin = (Vue) => {
+  Vue.mixin({
+    beforeCreate () {
+      if (this.$options.message) {
+        console.log(this.$options.message)
+      }
+    }
+  })
+}
+
+Vue.use(myPlugin)
+
+new Vue({
+  message: 'hello plugin!'
+})
+</script>

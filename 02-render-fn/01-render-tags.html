@@ -1,0 +1,33 @@
+<script src="https://unpkg.com/vue"></script>
+<!--
+GOAL:
+
+Implement the "example" component which given the following usage:
+
+  <example :tags="['h1', 'h2', 'h3']"></example>
+
+renders the expected output:
+
+  <div>
+    <h1>0</h1>
+    <h2>1</h2>
+    <h3>2</h3>
+  </div>
+-->
+
+<div id="app">
+</div>
+
+<script>
+Vue.component('example', {
+  props: ['tags'],
+  render (h) {
+    // https://vuejs.org/v2/guide/render-function.html#createElement-Arguments
+    // Note that the second argument (data object) can be omitted, and the
+    // children argument can accept strings or numbers instead of Array of vnodes.
+    return h('div', this.tags.map((tag, i) => h(tag, i)))
+  }
+})
+
+new Vue({ el: '#app' })
+</script>
