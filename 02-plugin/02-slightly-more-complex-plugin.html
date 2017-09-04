@@ -1,0 +1,42 @@
+<script src="https://unpkg.com/vue"></script>
+
+<script>
+// 1. Create a plugin
+// 2. The plugin should install a global mixin
+// 3. The global mixin contains a "created" hook
+// 4. In the hook, check for `this.$options.rules`
+// 5. If rules exist, iterate through each key
+// 6. For each key create a watcher with `this.$watch`
+
+const RulesPlugin = {
+  install (Vue) {
+    Vue.mixin({
+      created () {
+        const rules = this.$options.rules
+        if (rules) {
+          Object.keys(rules).forEach(key => {
+            const validatorFn = rules[key]
+            this.$watch(key, newValue => {
+              const valid = validatorFn(newValue)
+              if (!valid) {
+                console.warn(`${key} failed validation.`)
+              }
+            })
+          })
+        }
+      }
+    })
+  }
+}
+
+Vue.use(RulesPlugin)
+
+const vm = new Vue({
+  data: { foo: 10 },
+  rules: {
+    foo: value => value > 1
+  }
+})
+
+vm.foo = 0 // should console.warn: "foo must be greater than one"
+</script>

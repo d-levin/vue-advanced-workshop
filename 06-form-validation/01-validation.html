@@ -1,0 +1,79 @@
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+  <form @submit="validate">
+    <input v-model="text">
+    <br>
+    <input v-model="email">
+
+    <ul v-if="!$v.valid" style="color:red">
+      <li v-for="error in $v.errors">
+        {{ error }}
+      </li>
+    </ul>
+
+    <input type="submit" :disabled="!$v.valid">
+  </form>
+</div>
+
+<script>
+const validationPlugin = {
+  install (Vue) {
+    Vue.mixin({
+      computed: {
+        $v () {
+          let valid = true
+          const errors = []
+
+          const schema = this.$options.validations
+          if (schema) {
+            Object.keys(schema).forEach(key => {
+              const value = this[key]
+              const validateFn = schema[key].validate
+              const result = validateFn(value)
+
+              if (!result) {
+                valid = false
+                errors.push(schema[key].message(key, value))
+              }
+            })
+          }
+
+          return {
+            valid,
+            errors
+          }
+        }
+      }
+    })
+  }
+}
+
+Vue.use(validationPlugin)
+
+new Vue({
+  el: '#app',
+  data: {
+    text: 'foo',
+    email: ''
+  },
+  validations: {
+    text: {
+      validate: value => value.length >= 5,
+      message: (key, value) => `${key} should have a min length of 5, but got ${value.length}`
+    },
+    email: {
+      validate: value => /email/.test(value),
+      message: key => `${key} must be a valid email`
+    }
+  },
+  methods: {
+    validate (e) {
+      if (!this.$v.valid) {
+        e.preventDefault()
+        alert('not valid!')
+      }
+    }
+  }
+})
+</script>

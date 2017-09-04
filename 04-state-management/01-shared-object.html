@@ -10,7 +10,7 @@
 <script>
 // create a counter component (that doesn't take any props)
 // all instances of it should share the same count state
-// create a button that increments all counters at the same time
+// and a button that increments all counters at the same time
 
 const state = {
   count: 0
@@ -18,8 +18,11 @@ const state = {
 
 const Counter = {
   data () {
-    return state
+    return state // same object, same reference
   },
+  // data () {
+  //   return { count: 0 } // a fresh object
+  // },
   template: `<div>{{ count }}</div>`
 }
 

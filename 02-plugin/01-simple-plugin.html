@@ -1,6 +1,12 @@
 <script src="https://unpkg.com/vue"></script>
 
 <script>
+// Goal: create a custom plugin that teaches Vue
+// instances how to handle
+// a custom "message" component option.
+// A component should log its "message"
+// option when instantiated.
+
 const myPlugin = (Vue) => {
   Vue.mixin({
     beforeCreate () {
@@ -13,7 +19,7 @@ const myPlugin = (Vue) => {
 
 Vue.use(myPlugin)
 
-new Vue({
+const vm = new Vue({
   message: 'hello plugin!'
 })
 </script>

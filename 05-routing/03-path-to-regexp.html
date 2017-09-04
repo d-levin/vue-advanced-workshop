@@ -1,9 +1,7 @@
 <script src="https://unpkg.com/vue"></script>
 <script src="https://wzrd.in/standalone/path-to-regexp"></script>
 
-<div id="app">
-  <router-view></router-view>
-</div>
+<div id="app"></div>
 
 <script>
 const Foo = {
@@ -21,9 +19,11 @@ const routeTable = {
 // pre-compile patterns into regex
 const compiledRouteTable = {}
 Object.keys(routeTable).forEach(pattern => {
+  const dynamicSegments = []
   compiledRouteTable[pattern] = {
     component: routeTable[pattern],
-    regex: pathToRegexp(pattern)
+    regex: pathToRegexp(pattern, dynamicSegments),
+    dynamicSegments
   }
 })
 
@@ -58,13 +58,13 @@ const app = new Vue({
     // if it matches, extract dynamic segments (params) and use it as props
     // for the matched component
     Object.keys(compiledRouteTable).some(pattern => {
-      const { component, regex } = compiledRouteTable[pattern]
+      const { component, regex, dynamicSegments } = compiledRouteTable[pattern]
       const match = regex.exec(path)
 
       if (match) {
         // we have a match!
         componentToRender = component
-        regex.keys.forEach(({ name }, index) => {
+        dynamicSegments.forEach(({ name }, index) => {
           props[name] = match[index + 1]
         })
         return true
@@ -82,10 +82,4 @@ const app = new Vue({
     ])
   }
 })
-
-// goal:
-// - display foo when url is at #foo
-// - display bar when url is at #bar
-// - bonus: implement links that navigate between #foo and #bar
-// - bonus2: render foo and bar from child components (<foo> and <bar>)
 </script>

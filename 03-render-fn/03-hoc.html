@@ -1,0 +1,69 @@
+<script>
+const Avatar = {
+  props: ['src'],
+  template: `<img :src="src">`
+}
+
+// GOAL 1:
+//
+// Implement a SmartAvatar component which renders the base Avatar component,
+// and:
+//
+// 1. Instead of directly taking an image src URL prop, it takes a username
+//    as a prop.
+// 2. It fetches the corresponding URL for that username when created. (the
+//    actual fetching can be simply mocked, or you can fetch it from gravatar)
+// 3. It passes down a loading image URL while waiting for the actual URL to be
+//    fetched.
+
+const SmartAvatar = {
+  props: ['username'],
+  data: {
+    url: null
+  },
+  created () {
+    fetchURL(this.username, url => {
+      this.url = url
+    })
+  },
+  render (h) {
+    return h(Avatar, {
+      props: {
+        src: this.url || '/path/to/loading.png'
+      }
+    })
+  }
+}
+
+// 2nd GOAL:
+//
+// Create a decorator function, "withAvatarURL", which takes an inner component
+// that expects a raw URL, and returns a new component that wraps the inner
+// component and performs everything that the SmartAvatar does. The usage would
+// look like this:
+//
+//   const SmartAvatar = withAvatarURL(Avatar)
+
+function withAvatarURL (InnerComponent) {
+  return {
+    props: ['username'],
+    inheritAttrs: false, // 2.4 only
+    data: {
+      url: null
+    },
+    created () {
+      fetchURL(this.username, url => {
+        this.url = url
+      })
+    },
+    render (h) {
+      return h(InnerComponent, {
+        attrs: this.$attrs, // 2.4 only 
+        props: {
+          src: this.url || '/path/to/loading.png'
+        }
+      })
+    }
+  }
+}
+</script>

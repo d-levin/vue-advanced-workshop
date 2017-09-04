@@ -1,4 +1,17 @@
 <script src="https://unpkg.com/vue"></script>
+<script>
+// goal:
+// - display foo when url is at #foo
+// - display bar when url is at #bar
+// - bonus: implement links that navigate between #foo and #bar
+
+// to access the current hash:
+window.location.hash
+// to listen for hash changes:
+window.addEventListener('hashchange', () => {
+  // read hash and update app
+})
+</script>
 
 <div id="app">
   <component :is="url"></component>
@@ -22,10 +35,4 @@ const app = new Vue({
     bar: { template: `<div>bar</div>` }
   }
 })
-
-// goal:
-// - display foo when url is at #foo
-// - display bar when url is at #bar
-// - bonus: implement links that navigate between #foo and #bar
-// - bonus2: render foo and bar from child components (<foo> and <bar>)
 </script>

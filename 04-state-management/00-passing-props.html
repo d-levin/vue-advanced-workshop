@@ -1,0 +1,26 @@
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+  <counter :count="count"></counter>
+  <counter :count="count"></counter>
+  <counter :count="count"></counter>
+  <button @click="count++">increment</button>
+</div>
+
+<script>
+// requirement: a counter component rendered 3 times
+// the component takes the current count via props
+// and a button that increments all 3 counters at once
+new Vue({
+  el: '#app',
+  data: {
+    count: 0
+  },
+  components: {
+    counter: {
+      props: ['count'],
+      template: `<div>{{ count }}</div>`
+    }
+  }
+})
+</script>

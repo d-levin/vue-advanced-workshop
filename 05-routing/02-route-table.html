@@ -1,0 +1,50 @@
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+  <component :is="matchedComponent"></component>
+  <a href="#foo">foo</a>
+  <a href="#bar">bar</a>
+</div>
+
+<script>
+const Foo = { template: `<div>foo</div>` }
+const Bar = { template: `<div>bar</div>` }
+const NotFound = { template: `<div>not found!</div>` }
+
+const routeTable = {
+  '/foo/:id': Foo,
+  '/bar': Bar
+}
+
+// '#/foo' -> Foo
+// '#/bar' -> Bar
+// '#/404' -> NotFound
+
+const app = new Vue({
+  el: '#app',
+  data: {
+    // retrieving the initial URL
+    url: window.location.hash.slice(1)
+  },
+  mounted () {
+    // reacting to URL changes
+    window.addEventListener('hashchange', () => {
+      this.url = window.location.hash.slice(1)
+    })
+  },
+  // alternatively, this can be directly computed inside
+  // a render function.
+  computed: {
+    matchedComponent () {
+      return routeTable['/' + this.url] || NotFound
+    }
+  },
+  // render (h) {
+  //   return h('div', [
+  //     h(routeTable['/' + this.url] || NotFound),
+  //     h('a', { attrs: { href: '#foo' }}, 'Go to Foo'),
+  //     h('a', { attrs: { href: '#bar' }}, 'Go to Bar')
+  //   ])
+  // }
+})
+</script>

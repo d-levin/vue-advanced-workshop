@@ -1,8 +1,17 @@
+<div>
+  <counter></counter>
+  <counter></counter>
+  <counter></counter>
+  <button @click="inc">increment</button>
+</div>
+
 <script>
-// copy and modify the first exercise to use a Vue instance as a shared
-// store instead.
+// copy and modify the first exercise to use a Vue instance as
+// a shared store instead.
 const state = new Vue({
-  data: { count: 0 },
+  data: {
+    count: 0
+  },
   methods: {
     inc () {
       this.count++
