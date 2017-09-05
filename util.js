@@ -6,10 +6,18 @@ exports.createTestCase = (file, fn) => {
   it(base.replace(/\.test\.js$/, ''), done => {
     JSDOM.fromFile(
       resolve(file, `../../${base.replace(/\.test\.js$/, '.html')}`),
-      { runScripts: "dangerously" }
+      {
+        resources: 'usable',
+        runScripts: "dangerously"
+      }
     ).then(({ window }) => {
-      const log = window.console.log = jest.fn(() => {})
-      fn(window, log.mock.calls, done)
+      window.addEventListener('load', () => {
+        const log = window.console.log = jest.fn(() => {})
+        if (window.Vue) {
+          window.Vue.config.productionTip = false
+        }
+        fn(window, log.mock.calls, done)
+      })
     })
   })
 }

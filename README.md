@@ -40,19 +40,13 @@ This is the companion repository to the Vue Advanced Workshop.
 
   This will put you at the starting step of topic 1.1. Locate and open the HTML file that starts with 1.1 (e.g. `1-reactivity/1.1-getter-setter.html`) - it will contain the corresponding code exercise for that topic. You are expected to provide the implementation that fulfills the requirements outlined in the description.
 
-- You can checkout the hints for a given exercise (if it exists) with:
-
-  ``` bash
-  git checkout 1.1-hints
-  ```
-
-- And view the reference implementation of an exercise with:
+- You can view the reference implementation of an exercise with:
 
   ``` bash
   git checkout 1.1-ref
   ```
 
-- The `master` branch contains all exercises with full hints and reference implementations.
+- The `master` branch contains all exercises with full reference implementations.
 
 
 
