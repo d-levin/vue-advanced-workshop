@@ -26,14 +26,19 @@ This is the companion repository to the Vue Advanced Workshop.
 
 ### Progressing Through Topics via Git Branches
 
-- This repo contains a branch for each topic as the workshop progresses. To jump to a given topic, use the following git command:
+- This repo contains a branch for each topic as the workshop progresses. You can view all available branches by running:
+
+  ``` bash
+  git branch
+  ```
+
+  To jump to a given topic, use the following git command:
 
   ``` bash
   git checkout 1.1
-
   ```
 
-  This will put you at the starting step of topic 1.1 with an exercise description, and you are expected to provide the implementation that fulfills the requirements outlined in the description.
+  This will put you at the starting step of topic 1.1. Locate and open the HTML file that starts with 1.1 (e.g. `1-reactivity/1.1-getter-setter.html`) - it will contain the corresponding code exercise for that topic. You are expected to provide the implementation that fulfills the requirements outlined in the description.
 
 - You can checkout the hints for a given exercise (if it exists) with:
 
@@ -49,7 +54,7 @@ This is the companion repository to the Vue Advanced Workshop.
 
 - The `master` branch contains all exercises with full hints and reference implementations.
 
-- You can list all available branches via `git branch`.
+
 
 ### Saving Your Work
 
