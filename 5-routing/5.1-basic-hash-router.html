@@ -6,26 +6,37 @@
 // - bonus: implement links that navigate between #foo and #bar
 
 // to access the current hash:
-window.location.hash
+//window.location.hash
 // to listen for hash changes:
-window.addEventListener('hashchange', () => {
-  // read hash and update app
-})
+//window.addEventListener('hashchange', () => {
+//  // read hash and update app
+//})
 </script>
 
 <div id="app">
-  <!-- render main view here -->
-  <a href="#foo">foo</a>
-  <a href="#bar">bar</a>
+  <component :is="url"></component>
+  <a @click="routeTo('#foo')" href="#foo">foo</a>
+  <a @click="routeTo('#bar')" href="#bar">bar</a>
 </div>
 
 <script>
 window.addEventListener('hashchange', () => {
-  // Implement this!
+  app.url = window.location.hash.slice(1)
 })
 
 const app = new Vue({
   el: '#app',
-  // Implement this!
+  data: {
+    url: 'foo'
+  },
+  components: {
+    foo: { template: `<div>foo</div>`},
+    bar: { template: `<div>bar</div>`},
+  },
+  methods: {
+    routeTo (route) {
+      window.location.hash = route
+    }
+  }
 })
 </script>
