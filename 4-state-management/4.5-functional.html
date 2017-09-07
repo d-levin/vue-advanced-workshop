@@ -3,18 +3,8 @@
 <div id="app"></div>
 
 <script>
-// transform Vue into a this-less functional API with 12 lines of code.
 function app ({ el, model, view, actions }) {
-  Object.keys(actions).forEach(key => {
-    const rawAction = actions[key]
-    actions[key] = (...payload) => {
-      Object.assign(model, rawAction(model, actions, ...payload))
-    }
-  })
-  new Vue({
-    data: model,
-    render: h => view(h, model, actions)
-  }).$mount(el)
+  // Implement this!
 }
 
 // voila

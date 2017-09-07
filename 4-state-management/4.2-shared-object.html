@@ -12,27 +12,12 @@
 // all instances of it should share the same count state
 // and a button that increments all counters at the same time
 
-const state = {
-  count: 0
-}
-
 const Counter = {
-  data () {
-    return state // same object, same reference
-  },
-  // data () {
-  //   return { count: 0 } // a fresh object
-  // },
-  template: `<div>{{ count }}</div>`
+  // Implement this!
 }
 
 new Vue({
   el: '#app',
-  components: { Counter },
-  methods: {
-    inc () {
-      state.count++
-    }
-  }
+  // Implement this!
 })
 </script>

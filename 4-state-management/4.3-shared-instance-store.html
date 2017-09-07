@@ -1,3 +1,5 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+
 <div>
   <counter></counter>
   <counter></counter>
@@ -9,29 +11,15 @@
 // copy and modify the first exercise to use a Vue instance as
 // a shared store instead.
 const state = new Vue({
-  data: {
-    count: 0
-  },
-  methods: {
-    inc () {
-      this.count++
-    }
-  }
+  // Implement this!
 })
 
 const Counter = {
-  render (h) {
-    return h('div', state.count)
-  }
+  // Implement this!
 }
 
 new Vue({
   el: '#app',
-  components: { Counter },
-  methods: {
-    inc () {
-      state.inc()
-    }
-  }
+  // Implement this!
 })
 </script>

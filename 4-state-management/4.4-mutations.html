@@ -1,15 +1,15 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+
+<div>
+  <counter></counter>
+  <counter></counter>
+  <counter></counter>
+  <button @click="inc">increment</button>
+</div>
+
 <script>
 function createStore ({ state, mutations }) {
-  return new Vue({
-    data: {
-      state
-    },
-    methods: {
-      commit (mutationName) {
-        mutations[mutationName](state)
-      }
-    }
-  })
+  // Implement this!
 }
 
 const store = createStore({

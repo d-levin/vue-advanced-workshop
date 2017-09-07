@@ -4,6 +4,17 @@
 <div id="app"></div>
 
 <script>
+// '#/foo/123' -> foo with id: 123
+// '#/bar' -> Bar
+// '#/404' -> NotFound
+
+// path-to-regexp usage:
+// const regex = pathToRegexp(pattern)
+// const match = regex.exec(path)
+// const params = regex.keys.reduce((params, key, index) => {
+//   params[key] = match[index + 1]
+// }, {})
+
 const Foo = {
   props: ['id'],
   template: `<div>foo with id: {{ id }}</div>`
@@ -12,35 +23,12 @@ const Bar = { template: `<div>bar</div>` }
 const NotFound = { template: `<div>not found!</div>` }
 
 const routeTable = {
-  '/foo/:id': Foo,
-  '/bar': Bar
+  // Implement this!
 }
 
-// pre-compile patterns into regex
-const compiledRouteTable = {}
-Object.keys(routeTable).forEach(pattern => {
-  const dynamicSegments = []
-  compiledRouteTable[pattern] = {
-    component: routeTable[pattern],
-    regex: pathToRegexp(pattern, dynamicSegments),
-    dynamicSegments
-  }
-})
-
-// '#/foo/123' -> foo with id: 123
-// '#/bar' -> Bar
-// '#/404' -> NotFound
-
 window.addEventListener('hashchange', () => {
-  app.url = window.location.hash.slice(1)
+  // Implement this!
 })
-
-// path-to-regexp usage:
-// const regex = pathToRegexp(pattern)
-// const match = regex.exec(path)
-// const params = regex.keys.reduce((params, key, index) => {
-//   params[key] = match[index + 1]
-// }, {})
 
 const app = new Vue({
   el: '#app',
@@ -53,28 +41,11 @@ const app = new Vue({
     let componentToRender
     let props = {}
 
-    // iterate through our compiled route table
-    // and check if a route matches the current path
-    // if it matches, extract dynamic segments (params) and use it as props
-    // for the matched component
-    Object.keys(compiledRouteTable).some(pattern => {
-      const { component, regex, dynamicSegments } = compiledRouteTable[pattern]
-      const match = regex.exec(path)
-
-      if (match) {
-        // we have a match!
-        componentToRender = component
-        dynamicSegments.forEach(({ name }, index) => {
-          props[name] = match[index + 1]
-        })
-        return true
-      }
-    })
+    // Implement the logic to figure out proper values
+    // for componentToRender and props
 
     return h('div', [
-      h(componentToRender || NotFound, {
-        props
-      }),
+      h(componentToRender, { props }),
       h('a', { attrs: { href: '#foo/123' }}, 'foo'),
       h('a', { attrs: { href: '#foo/234' }}, 'foo'),
       ' | ',
