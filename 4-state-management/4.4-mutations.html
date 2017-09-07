@@ -1,6 +1,6 @@
 <script src="../node_modules/vue/dist/vue.js"></script>
 
-<div>
+<div id="app">
   <counter></counter>
   <counter></counter>
   <counter></counter>
@@ -9,7 +9,19 @@
 
 <script>
 function createStore ({ state, mutations }) {
-  // Implement this!
+  return new Vue({
+    data: {
+      state
+    },
+    methods: {
+      commit (mutation) {
+        if (!mutations.hasOwnProperty(mutation)) {
+          throw new Error('Unknown mutation')
+        }
+        mutations[mutation](state)
+      }
+    }
+  })
 }
 
 const store = createStore({
