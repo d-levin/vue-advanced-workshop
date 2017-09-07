@@ -1,7 +1,7 @@
 <script src="../node_modules/vue/dist/vue.js"></script>
 
 <div id="app">
-  <!-- render main view here -->
+  <component :is="matchedComponent"></component>
   <a href="#foo">foo</a>
   <a href="#bar">bar</a>
 </div>
@@ -16,15 +16,23 @@ const Bar = { template: `<div>bar</div>` }
 const NotFound = { template: `<div>not found!</div>` }
 
 const routeTable = {
-  // Implement this!
+  foo: Foo,
+  bar: Bar
 }
 
 window.addEventListener('hashchange', () => {
-  // Implement this!
+  app.url = window.location.hash.slice(1)
 })
 
 const app = new Vue({
   el: '#app',
-  // Implement this!
+  data: {
+    url: 'foo'
+  },
+  computed: {
+    matchedComponent () {
+      return routeTable[this.url] || NotFound
+    }
+  }
 })
 </script>
