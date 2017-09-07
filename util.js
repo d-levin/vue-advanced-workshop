@@ -1,11 +1,20 @@
-const { resolve, basename } = require('path')
+const fs = require('fs')
+const path = require('path')
 const { JSDOM } = require('jsdom')
 
+function getFilename (file) {
+  const dir = path.dirname(file)
+  const base = path.basename(file)
+  const files = fs.readdirSync(path.resolve(dir, '../'))
+  const id = base.match(/^\d+\.\d+/)[0]
+  return files.filter(f => f.startsWith(id) && f.endsWith('.html'))[0]
+}
+
 exports.createTestCase = (file, fn) => {
-  const base = basename(file)
-  it(base.replace(/\.test\.js$/, ''), done => {
+  const fileToTest = getFilename(file)
+  it(fileToTest.replace(/\.html$/, ''), done => {
     JSDOM.fromFile(
-      resolve(file, `../../${base.replace(/\.test\.js$/, '.html')}`),
+      path.resolve(file, `../../${fileToTest}`),
       {
         resources: 'usable',
         runScripts: "dangerously"

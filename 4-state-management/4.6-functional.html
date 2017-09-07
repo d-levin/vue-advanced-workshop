@@ -1,0 +1,35 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+
+<div id="app"></div>
+
+<script>
+// transform Vue into a this-less functional API with 12 lines of code.
+function app ({ model, view, actions }) {
+  Object.keys(actions).forEach(key => {
+    const rawAction = actions[key]
+    actions[key] = (...payload) => {
+      Object.assign(model, rawAction(model, actions, ...payload))
+    }
+  })
+  new Vue({
+    data: model,
+    render: h => view(h, model, actions)
+  }).$mount('#app')
+}
+
+// voila
+app({
+  model: {
+    count: 0
+  },
+  actions: {
+    inc: ({ count }) => ({ count: count + 1 }),
+    dec: ({ count }) => ({ count: count - 1 })
+  },
+  view: (h, model, actions) => h('div', [
+    model.count, ' ',
+    h('button', { on: { click: actions.inc }}, '+'),
+    h('button', { on: { click: actions.dec }}, '-')
+  ])
+})
+</script>

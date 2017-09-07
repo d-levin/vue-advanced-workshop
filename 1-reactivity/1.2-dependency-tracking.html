@@ -1,0 +1,30 @@
+<script>
+// a class representing a dependency
+// exposing it on window is necessary for testing
+window.Dep = class Dep {
+  constructor () {
+    this.subscribers = new Set()
+  }
+
+  depend () {
+    if (activeUpdate) {
+      this.subscribers.add(activeUpdate)
+    }
+  }
+
+  notify () {
+    this.subscribers.forEach(sub => sub())
+  }
+}
+
+let activeUpdate = null
+
+function autorun (update) {
+  const wrappedUpdate = () => {
+    activeUpdate = wrappedUpdate
+    update()
+    activeUpdate = null
+  }
+  wrappedUpdate()
+}
+</script>
