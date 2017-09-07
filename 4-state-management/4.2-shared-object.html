@@ -12,12 +12,30 @@
 // all instances of it should share the same count state
 // and a button that increments all counters at the same time
 
+const state = {
+  count: 0
+}
+
 const Counter = {
-  // Implement this!
+  // Convert state into reactive object
+  data () {
+    return state
+  },
+  render (h) {
+    // Proxy the object
+    return h('div', this.count)
+  }
 }
 
 new Vue({
   el: '#app',
-  // Implement this!
+  components: {
+    Counter
+  },
+  methods: {
+    inc () {
+      state.count++
+    }
+  }
 })
 </script>
