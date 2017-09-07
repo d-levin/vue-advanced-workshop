@@ -1,3 +1,5 @@
+jest.setTimeout(1000)
+
 const fs = require('fs')
 const path = require('path')
 const { JSDOM } = require('jsdom')
@@ -10,7 +12,7 @@ function getFilename (file) {
   return files.filter(f => f.startsWith(id) && f.endsWith('.html'))[0]
 }
 
-exports.createTestCase = (file, fn) => {
+exports.createTestCase = (file, fn, extra) => {
   const fileToTest = getFilename(file)
   it(fileToTest.replace(/\.html$/, ''), done => {
     JSDOM.fromFile(
@@ -26,6 +28,10 @@ exports.createTestCase = (file, fn) => {
         var evt = window.document.createEvent('HTMLEvents')
         evt.initEvent('click', false, true)
         window.document.querySelector(target).dispatchEvent(evt)
+      }
+
+      if (extra) {
+        extra(window)
       }
 
       window.addEventListener('load', () => {
