@@ -18,7 +18,36 @@
 
 <script>
 const validationPlugin = {
-  // Implement this!
+  install (Vue) {
+    Vue.mixin({
+      beforeCreate () {
+        if (this.$options.validations) {
+          this.$options.computed = Object.assign({}, this.$options.computed, {
+            $v () {
+              let errors = []
+              let valid = true
+              const rules = this.$options.validations
+
+              Object.keys(rules).forEach(key => {
+                const rule = rules[key]
+                const value = this[key]
+                const result = rule.validate(value)
+                if (!result) {
+                  valid = false
+                  errors.push(rule.message(key, value))
+                }
+              })
+
+              return {
+                errors,
+                valid
+              }
+            }
+          })
+        }
+      }
+    })
+  }
 }
 
 Vue.use(validationPlugin)
