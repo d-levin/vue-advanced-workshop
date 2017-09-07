@@ -20,6 +20,14 @@ exports.createTestCase = (file, fn) => {
         runScripts: "dangerously"
       }
     ).then(({ window }) => {
+
+      // test helper
+      window.$click = function (target) {
+        var evt = window.document.createEvent('HTMLEvents')
+        evt.initEvent('click', false, true)
+        window.document.querySelector(target).dispatchEvent(evt)
+      }
+
       window.addEventListener('load', () => {
         const log = window.console.log = jest.fn(() => {})
         if (window.Vue) {

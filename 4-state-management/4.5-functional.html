@@ -4,7 +4,7 @@
 
 <script>
 // transform Vue into a this-less functional API with 12 lines of code.
-function app ({ model, view, actions }) {
+function app ({ el, model, view, actions }) {
   Object.keys(actions).forEach(key => {
     const rawAction = actions[key]
     actions[key] = (...payload) => {
@@ -14,11 +14,12 @@ function app ({ model, view, actions }) {
   new Vue({
     data: model,
     render: h => view(h, model, actions)
-  }).$mount('#app')
+  }).$mount(el)
 }
 
 // voila
 app({
+  el: '#app',
   model: {
     count: 0
   },
