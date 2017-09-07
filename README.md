@@ -24,42 +24,33 @@ This is the companion repository to the Vue Advanced Workshop.
 
 ## Usage
 
-### Progressing Through Topics via Git Branches
+### Switching Between Work and Solution Branches
 
-- This repo contains a branch for each topic as the workshop progresses. You can view all available branches by running:
+This repo contains two branches: the `master` branch is where you will be working on the exercises, and the `solutions` branch contains the full solutions to each exercise.
 
-  ``` bash
-  git branch
-  ```
+To jump to the `solutions` branch, use the following git command:
 
-  To jump to a given topic, use the following git command:
+``` bash
+git checkout solutions
+```
 
-  ``` bash
-  git checkout 1.1
-  ```
+To go back to the working branch:
 
-  This will put you at the starting step of topic 1.1. Locate and open the HTML file that starts with 1.1 (e.g. `1-reactivity/1.1-getter-setter.html`) - it will contain the corresponding code exercise for that topic. You are expected to provide the implementation that fulfills the requirements outlined in the description.
-
-- You can view the reference implementation of an exercise with:
-
-  ``` bash
-  git checkout 1.1-ref
-  ```
-
-- The `master` branch contains all exercises with full reference implementations.
-
-
+``` bash
+git checkout master
+```
 
 ### Saving Your Work
 
-As you work on the exercise, you will leave un-commited changes to the repo. Make sure to commit your changes before checking out a different branch:
+As you work on the exercise, you will leave un-commited changes to the repo. Make sure to commit your changes before switching branches:
 
 ``` bash
 git add -A
 git commit -m 'working on exercise 1.1'
+git checkout solutions
 ```
 
-After viewing the hints or reference in a different branch, you can then go back to the original branch to continue the exercise.
+After viewing the hints from the `solutions` branch, you can then go back to the `master` branch to continue the exercise.
 
 ### Automated Tests
 
