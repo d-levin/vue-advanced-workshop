@@ -23,6 +23,8 @@ const validationPlugin = {
 
 Vue.use(validationPlugin)
 
+const emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
 new Vue({
   el: '#app',
   data: {
@@ -35,7 +37,7 @@ new Vue({
       message: (key, value) => `${key} should have a min length of 5, but got ${value.length}`
     },
     email: {
-      validate: value => /email/.test(value),
+      validate: value => emailRE.test(value),
       message: key => `${key} must be a valid email`
     }
   },

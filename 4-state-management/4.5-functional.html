@@ -17,7 +17,7 @@ app({
     inc: ({ count }) => ({ count: count + 1 }),
     dec: ({ count }) => ({ count: count - 1 })
   },
-  view: (h, model, actions) => h('div', [
+  view: (h, model, actions) => h('div', { attrs: { id: 'app' }}, [
     model.count, ' ',
     h('button', { on: { click: actions.inc }}, '+'),
     h('button', { on: { click: actions.dec }}, '-')

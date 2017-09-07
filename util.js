@@ -1,3 +1,5 @@
+jest.setTimeout(1000)
+
 const fs = require('fs')
 const path = require('path')
 const { JSDOM } = require('jsdom')

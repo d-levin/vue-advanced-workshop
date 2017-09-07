@@ -11,8 +11,19 @@
 // requirement: a counter component rendered 3 times
 // the component takes the current count via props
 // and a button that increments all 3 counters at once
+Vue.component('counter', {
+  props: {
+    count: Number
+  },
+  render (h) {
+    return h('div', { props: { count: this.count } })
+  }
+})
+
 new Vue({
   el: '#app',
-  // Implement this!
+  data: {
+    count: 0
+  }
 })
 </script>
