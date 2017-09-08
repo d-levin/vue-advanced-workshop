@@ -11,9 +11,6 @@
 // path-to-regexp usage:
 // const regex = pathToRegexp(pattern)
 // const match = regex.exec(path)
-// const params = regex.keys.reduce((params, key, index) => {
-//   params[key] = match[index + 1]
-// }, {})
 
 const Foo = {
   props: ['id'],
@@ -23,11 +20,24 @@ const Bar = { template: `<div>bar</div>` }
 const NotFound = { template: `<div>not found!</div>` }
 
 const routeTable = {
-  // Implement this!
+  '/foo/:id': Foo,
+  '/bar': Bar
 }
 
+const compiledRoutes = []
+Object.keys(routeTable).forEach(key => {
+  const dynamicSegments = []
+  const regex = pathToRegexp(key, dynamicSegments)
+  const component = routeTable[key]
+  compiledRoutes.push({
+    component,
+    regex,
+    dynamicSegments
+  })
+})
+
 window.addEventListener('hashchange', () => {
-  // Implement this!
+  app.url = window.location.hash.slice(1)
 })
 
 const app = new Vue({
@@ -41,15 +51,27 @@ const app = new Vue({
     let componentToRender
     let props = {}
 
-    // Implement the logic to figure out proper values
-    // for componentToRender and props
+    compiledRoutes.some(route => {
+      const match = route.regex.exec(path)
+      componentToRender = NotFound
+      if (match) {
+        componentToRender = route.component
+        route.dynamicSegments.forEach((segment, index) => {
+          props[segment.name] = match[index + 1]
+        })
+        return true
+      }
+    })
 
     return h('div', [
       h(componentToRender, { props }),
-      h('a', { attrs: { href: '#foo/123' }}, 'foo'),
-      h('a', { attrs: { href: '#foo/234' }}, 'foo'),
+      h('a', { attrs: { href: '#foo/123' }}, 'foo 123'),
       ' | ',
-      h('a', { attrs: { href: '#bar' }}, 'bar')
+      h('a', { attrs: { href: '#foo/234' }}, 'foo 234'),
+      ' | ',
+      h('a', { attrs: { href: '#bar' }}, 'bar'),
+      ' | ',
+      h('a', { attrs: { href: '#garbage' }}, 'garbage')
     ])
   }
 })
